@@ -29,3 +29,7 @@ Route::get('/services', 'PagesController@services');
 
 Route::resource('posts', 'PostsController');//it will automatically create routes for the posts resource
 
+
+Auth::routes();
+
+Route::get('/dashboard', 'DashboardController@index');

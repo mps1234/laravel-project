@@ -13,4 +13,7 @@ class Post extends Model
     // Timestamps
     public $timestamps = true;	//we have created at and update at fields, if we dont want them put false
 
+    public function user(){
+    	return $this->belongsTo('App\User');
+    }
 }

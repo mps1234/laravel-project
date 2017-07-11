@@ -3,17 +3,25 @@
 @section('content')
 	<a href="/posts" class="btn btn-default">Go Back</a>
 	<h1>{{ $post->title }}</h1>
-		<div>
-			{!! $post->body !!}
-		</div>
+	<div class="row">
+		<div class="col-md-4"><img style="width:100%" src="/storage/cover_images/{{$post->cover_image}}"></div>
+		<div class="col-md-8">{!! $post->body !!}</div>
+	</div>
+	
 	<hr>
-	<small>Written on {{ $post->created_at }}</small>
+	<small>Written on {{ $post->created_at }} by {{ $post->user->name }}</small>
 	<hr>
-	<a href="/posts/{{ $post->id }}/edit" class="btn btn-default">Edit</a>
+	@if(!Auth::guest())
+		@if(Auth::user()->id == $post->user->id)
+			<a href="/posts/{{ $post->id }}/edit" class="btn btn-default">Edit</a>
 
-	{!!Form::open(['action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right']) !!}
-		{{Form::hidden('_method', 'DELETE')}}
-		{{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-	{!!Form::close()!!}
+			{!!Form::open(['action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right']) !!}
+				{{Form::hidden('_method', 'DELETE')}}
+				{{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+
+			{!!Form::close()!!}
+			
+		@endif
+	@endif
 
 @endsection
